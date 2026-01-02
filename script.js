@@ -98,3 +98,4 @@ function calculateSGPA() {
 
 // Start fetching data immediately
 window.addEventListener("DOMContentLoaded", init);
+
