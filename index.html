@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SGPA Calculator - RVR & JC</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Tabletop.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js"></script>
+</head>
+
+<body>
+    <h1>SGPA Calculator</h1>
+    <p>RVR & JC College of Engineering<br>2nd Year – 1st Semester</p>
+
+    <label>Select Branch:</label><br>
+    <select id="Branch" onchange="loadSubjects()">
+        <option value="">-- Select Branch --</option>
+        <option value="CSE">CSE</option>
+        <option value="ECE">ECE</option>
+    </select>
+
+    <div id="subjects"></div>
+
+    <br>
+    <button onclick="calculateSGPA()">Calculate SGPA</button>
+
+    <h2 id="result"></h2>
+
+    <script src="script.js"></script>
+</body>
+</html>
