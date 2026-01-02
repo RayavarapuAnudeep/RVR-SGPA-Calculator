@@ -54,7 +54,7 @@ function loadSubjects() {
                 <p style="font-size: 0.9em; color: #555;">Credits: ${subject.credits}</p>
                 <select id="grade${index}" class="grade-select">
                     <option value="">-- Select Grade --</option>
-                    <option value="10">A+</option>
+                    <option value="10">A+ </option>
                     <option value="9">A </option>
                     <option value="8">B </option>
                     <option value="7">C </option>
@@ -98,5 +98,6 @@ function calculateSGPA() {
 
 // Start fetching data immediately
 window.addEventListener("DOMContentLoaded", init);
+
 
 
