@@ -1,7 +1,7 @@
 let data = {};
 
 // ✅ Use your NEW CSV Link here
-const publicSpreadsheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vThfreak7XcoDEANIKO054MGdcqflS6UN2-7MmaEUtnfS2tV1f5z6kpxpI6dShGvbdBCW-P0jifmULM/pub?gid=0&single=true&output=csv";
+const publicSpreadsheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vThfreak7XcoDEANIKO054MGdcqflS6UN2-7MmaEUtnfS2tV1f5z6kpxpI6dShGvbdBCW-P0jifmULM/pub?output=csv";
 
 async function init() {
     try {
@@ -10,90 +10,28 @@ async function init() {
         parseCSVData(csvText);
     } catch (error) {
         console.error("Error loading sheet:", error);
-        alert("Failed to load data from Google Sheets.");
     }
 }
 
-// Replaces onDataLoaded for CSV format
 function parseCSVData(csvText) {
     data = {};
-    // Split text into rows and remove empty lines
-    const rows = csvText.split("\n").filter(row => row.trim() !== "");
+    // This regex correctly handles commas inside quotes
+    const rows = csvText.split(/\r?\n/);
     
-    // Skip the first row (headers) and loop through data
     for (let i = 1; i < rows.length; i++) {
-        const columns = rows[i].split(",");
+        // Advanced split to ignore commas inside "quotes"
+        const columns = rows[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
         
-        // Match your Google Sheet columns: A=Branch, B=Subject, C=Credits
-        const branch = columns[0] ? columns[0].trim() : "";
-        const subjectName = columns[1] ? columns[1].trim() : "";
-        const credits = columns[2] ? Number(columns[2].trim()) : 0;
+        if (columns && columns.length >= 3) {
+            const branch = columns[0].replace(/"/g, "").trim();
+            const subjectName = columns[1].replace(/"/g, "").trim();
+            const credits = parseFloat(columns[2].replace(/"/g, "").trim());
 
-        if (branch && subjectName) {
             if (!data[branch]) data[branch] = [];
-            data[branch].push({
-                name: subjectName,
-                credits: credits
-            });
+            data[branch].push({ name: subjectName, credits: credits });
         }
     }
-
-    console.log("Data successfully processed:", data);
+    console.log("Calculated Data:", data);
 }
 
-// ✅ Keep your existing loadSubjects function
-function loadSubjects() {
-    const branch = document.getElementById("branch").value;
-    const container = document.getElementById("subjects");
-    container.innerHTML = "";
-
-    if (!branch || !data[branch]) return;
-
-    data[branch].forEach((subject, index) => {
-        container.innerHTML += `
-            <div class="subject">
-                <p><b>${subject.name}</b> (Credits: ${subject.credits})</p>
-                <select id="grade${index}">
-                    <option value="">Select Grade</option>
-                    <option value="10">A+</option>
-                    <option value="9">A</option>
-                    <option value="8">B</option>
-                    <option value="7">C</option>
-                    <option value="6">D</option>
-                    <option value="5">E</option>
-                    <option value="0">F</option>
-                </select>
-            </div>
-        `;
-    });
-}
-
-// ✅ Keep your existing calculateSGPA function
-function calculateSGPA() {
-    const branch = document.getElementById("branch").value;
-    if (!branch || !data[branch]) return alert("Select a branch first");
-
-    let totalCredits = 0, totalPoints = 0;
-    let allGradesSelected = true;
-
-    data[branch].forEach((subject, i) => {
-        const gradeValue = document.getElementById("grade" + i).value;
-        if (gradeValue === "") {
-            allGradesSelected = false;
-            return;
-        }
-
-        const grade = Number(gradeValue);
-        totalCredits += subject.credits;
-        totalPoints += (subject.credits * grade);
-    });
-
-    if (!allGradesSelected) {
-        return alert("Please select grades for all subjects");
-    }
-
-    const sgpa = totalPoints / totalCredits;
-    document.getElementById("result").innerText = "Your SGPA is: " + sgpa.toFixed(2);
-}
-
-window.addEventListener("DOMContentLoaded", init);
+// ... Keep your loadSubjects and calculateSGPA functions below ...
