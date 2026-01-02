@@ -1,36 +1,47 @@
 let data = {};
 
-// ✅ Your published Google Sheet link
-const publicSpreadsheetUrl = 
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vThfreak7XcoDEANIKO054MGdcqflS6UN2-7MmaEUtnfS2tV1f5z6kpxpI6dShGvbdBCW-P0jifmULM/pubhtml";
+// ✅ Use your NEW CSV Link here
+const publicSpreadsheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vThfreak7XcoDEANIKO054MGdcqflS6UN2-7MmaEUtnfS2tV1f5z6kpxpI6dShGvbdBCW-P0jifmULM/pub?gid=0&single=true&output=csv";
 
-// Initialize Tabletop
-function init() {
-    Tabletop.init({
-        key: publicSpreadsheetUrl,
-        simpleSheet: true,
-        callback: onDataLoaded
-    });
+async function init() {
+    try {
+        const response = await fetch(publicSpreadsheetUrl);
+        const csvText = await response.text();
+        parseCSVData(csvText);
+    } catch (error) {
+        console.error("Error loading sheet:", error);
+        alert("Failed to load data from Google Sheets.");
+    }
 }
 
-// Runs after data is loaded from Google Sheet
-function onDataLoaded(sheetData) {
+// Replaces onDataLoaded for CSV format
+function parseCSVData(csvText) {
     data = {};
+    // Split text into rows and remove empty lines
+    const rows = csvText.split("\n").filter(row => row.trim() !== "");
+    
+    // Skip the first row (headers) and loop through data
+    for (let i = 1; i < rows.length; i++) {
+        const columns = rows[i].split(",");
+        
+        // Match your Google Sheet columns: A=Branch, B=Subject, C=Credits
+        const branch = columns[0] ? columns[0].trim() : "";
+        const subjectName = columns[1] ? columns[1].trim() : "";
+        const credits = columns[2] ? Number(columns[2].trim()) : 0;
 
-    sheetData.forEach(row => {
-        const branch = row.Branch; // must match column name exactly
-        if (!data[branch]) data[branch] = [];
+        if (branch && subjectName) {
+            if (!data[branch]) data[branch] = [];
+            data[branch].push({
+                name: subjectName,
+                credits: credits
+            });
+        }
+    }
 
-        data[branch].push({
-            name: row.Subject,
-            credits: Number(row.Credits)
-        });
-    });
-
-    console.log("Data loaded:", data); // check in browser console
+    console.log("Data successfully processed:", data);
 }
 
-// Load subjects for selected branch
+// ✅ Keep your existing loadSubjects function
 function loadSubjects() {
     const branch = document.getElementById("branch").value;
     const container = document.getElementById("subjects");
@@ -41,10 +52,9 @@ function loadSubjects() {
     data[branch].forEach((subject, index) => {
         container.innerHTML += `
             <div class="subject">
-                <b>${subject.name}</b>
-                <input type="text" value="${subject.credits}" readonly>
+                <p><b>${subject.name}</b> (Credits: ${subject.credits})</p>
                 <select id="grade${index}">
-                    <option value="">Grade</option>
+                    <option value="">Select Grade</option>
                     <option value="10">A+</option>
                     <option value="9">A</option>
                     <option value="8">B</option>
@@ -58,25 +68,32 @@ function loadSubjects() {
     });
 }
 
-// Calculate SGPA
+// ✅ Keep your existing calculateSGPA function
 function calculateSGPA() {
     const branch = document.getElementById("branch").value;
-    if (!branch || !data[branch]) return alert("Select a branch");
+    if (!branch || !data[branch]) return alert("Select a branch first");
 
     let totalCredits = 0, totalPoints = 0;
+    let allGradesSelected = true;
 
     data[branch].forEach((subject, i) => {
-        const grade = document.getElementById("grade" + i).value;
-        if (!grade) return alert("Select all grades");
+        const gradeValue = document.getElementById("grade" + i).value;
+        if (gradeValue === "") {
+            allGradesSelected = false;
+            return;
+        }
 
+        const grade = Number(gradeValue);
         totalCredits += subject.credits;
-        totalPoints += subject.credits * grade;
+        totalPoints += (subject.credits * grade);
     });
 
+    if (!allGradesSelected) {
+        return alert("Please select grades for all subjects");
+    }
+
     const sgpa = totalPoints / totalCredits;
-    document.getElementById("result").innerText =
-        "Your SGPA is: " + sgpa.toFixed(2);
+    document.getElementById("result").innerText = "Your SGPA is: " + sgpa.toFixed(2);
 }
 
-// Run Tabletop on page load
 window.addEventListener("DOMContentLoaded", init);
