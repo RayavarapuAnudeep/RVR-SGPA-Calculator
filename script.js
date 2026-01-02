@@ -1,6 +1,6 @@
 let data = {};
 
-// ✅ Use your NEW CSV Link here
+// ✅ Your updated CSV link (ends in /pub?output=csv)
 const publicSpreadsheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vThfreak7XcoDEANIKO054MGdcqflS6UN2-7MmaEUtnfS2tV1f5z6kpxpI6dShGvbdBCW-P0jifmULM/pub?output=csv";
 
 async function init() {
@@ -15,23 +15,86 @@ async function init() {
 
 function parseCSVData(csvText) {
     data = {};
-    // This regex correctly handles commas inside quotes
+    // Split text into rows
     const rows = csvText.split(/\r?\n/);
     
     for (let i = 1; i < rows.length; i++) {
-        // Advanced split to ignore commas inside "quotes"
-        const columns = rows[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+        if (!rows[i]) continue;
+
+        // This Regex handles commas INSIDE quotes (like "Probability, Statistics")
+        const columns = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
         
-        if (columns && columns.length >= 3) {
+        if (columns.length >= 3) {
             const branch = columns[0].replace(/"/g, "").trim();
             const subjectName = columns[1].replace(/"/g, "").trim();
             const credits = parseFloat(columns[2].replace(/"/g, "").trim());
 
             if (!data[branch]) data[branch] = [];
-            data[branch].push({ name: subjectName, credits: credits });
+            data[branch].push({
+                name: subjectName,
+                credits: credits
+            });
         }
     }
-    console.log("Calculated Data:", data);
+    console.log("Data successfully processed:", data);
 }
 
-// ... Keep your loadSubjects and calculateSGPA functions below ...
+// Automatically displays subjects and their credits
+function loadSubjects() {
+    const branch = document.getElementById("branch").value;
+    const container = document.getElementById("subjects");
+    container.innerHTML = ""; 
+
+    if (!branch || !data[branch]) return;
+
+    data[branch].forEach((subject, index) => {
+        container.innerHTML += `
+            <div class="subject-row" style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding: 10px;">
+                <p><strong>${subject.name}</strong></p>
+                <p style="font-size: 0.9em; color: #555;">Credits: ${subject.credits}</p>
+                <select id="grade${index}" class="grade-select">
+                    <option value="">-- Select Grade --</option>
+                    <option value="10">A+ (10)</option>
+                    <option value="9">A (9)</option>
+                    <option value="8">B (8)</option>
+                    <option value="7">C (7)</option>
+                    <option value="6">D (6)</option>
+                    <option value="5">E (5)</option>
+                    <option value="0">F (0)</option>
+                </select>
+            </div>
+        `;
+    });
+}
+
+// Math calculation for SGPA
+function calculateSGPA() {
+    const branch = document.getElementById("branch").value;
+    if (!branch || !data[branch]) return alert("Please select a branch first");
+
+    let totalCredits = 0;
+    let totalPoints = 0;
+    let allSelected = true;
+
+    data[branch].forEach((subject, i) => {
+        const gradeVal = document.getElementById("grade" + i).value;
+        if (gradeVal === "") {
+            allSelected = false;
+        } else {
+            const grade = Number(gradeVal);
+            const credits = parseFloat(subject.credits);
+            totalCredits += credits;
+            totalPoints += (credits * grade);
+        }
+    });
+
+    if (!allSelected) {
+        return alert("Please select grades for all subjects");
+    }
+
+    const sgpa = totalPoints / totalCredits;
+    document.getElementById("result").innerText = "Your SGPA is: " + sgpa.toFixed(2);
+}
+
+// Start fetching data immediately
+window.addEventListener("DOMContentLoaded", init);
