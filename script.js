@@ -1,7 +1,7 @@
 let data = {};
 
 // ✅ Your updated CSV link (ends in /pub?output=csv)
-const publicSpreadsheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vThfreak7XcoDEANIKO054MGdcqflS6UN2-7MmaEUtnfS2tV1f5z6kpxpI6dShGvbdBCW-P0jifmULM/pub?output=csv";
+const publicSpreadsheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRJ9RRXIWhzsLVDb6_aog6Epz7QbhkHqRhg4FvZ1MyUmLQAfWkAxvjHGaFwICuiClndRcdkmaq5dXCo/pub?gid=0&single=true&output=csv";
 
 async function init() {
     try {
@@ -98,6 +98,7 @@ function calculateSGPA() {
 
 // Start fetching data immediately
 window.addEventListener("DOMContentLoaded", init);
+
 
 
 
