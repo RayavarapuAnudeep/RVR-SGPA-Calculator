@@ -7,21 +7,28 @@ body {
     margin: 0;
     padding: 50px 20px;
     min-height: 100vh;
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4, #a18cd1, #fbc2eb);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    background: #0b0c10; /* Dark space base */
+    color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #333;
     overflow-x: hidden;
+    position: relative;
 }
 
-/* BACKGROUND ANIMATION */
-@keyframes gradientBG {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
+/* STARS BACKGROUND */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: transparent url('https://i.ibb.co/0F7vXyY/stars.png') repeat;
+    z-index: -1;
+    animation: moveStars 200s linear infinite;
+}
+
+@keyframes moveStars {
+    0% { background-position: 0 0; }
+    100% { background-position: 10000px 10000px; }
 }
 
 /* HEADINGS */
@@ -29,13 +36,13 @@ h1 {
     font-size: 2.8em;
     font-weight: 700;
     margin-bottom: 5px;
-    color: #fff;
-    text-shadow: 2px 2px 12px rgba(0,0,0,0.3);
+    color: #ffdd00;
+    text-shadow: 2px 2px 12px rgba(0,0,0,0.7);
 }
 
 p {
     font-size: 1.1em;
-    color: #f0f0f0;
+    color: #ccc;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -48,15 +55,16 @@ select#branch {
     border: none;
     outline: none;
     font-size: 1em;
-    background: #fff;
-    color: #333;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
-select#branch:hover, select#branch:focus {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+select#branch option {
+    background: #1b1b1b;
+    color: #fff;
 }
 
 /* SUBJECT CARDS */
@@ -70,23 +78,22 @@ select#branch:hover, select#branch:focus {
     font-weight: 600;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
     transform: translateY(50px);
     opacity: 0;
     animation: fadeInUp 0.6s forwards;
 }
 
-/* DIFFERENT PASTEL COLORS FOR CARDS */
+/* PASTEL COLOR CARDS */
 .subject-row:nth-child(1) { background-color: #ff6b6b; }
 .subject-row:nth-child(2) { background-color: #6bc1ff; }
 .subject-row:nth-child(3) { background-color: #6bff95; }
 .subject-row:nth-child(4) { background-color: #ffd86b; }
 .subject-row:nth-child(5) { background-color: #b36bff; }
 
-/* CARD HOVER */
 .subject-row:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 50px rgba(0,0,0,0.25);
+    box-shadow: 0 15px 50px rgba(0,0,0,0.35);
 }
 
 /* SUBJECT NAME */
@@ -129,7 +136,7 @@ select#branch:hover, select#branch:focus {
 .grade-select:hover, .grade-select:focus {
     background: rgba(255,255,255,0.5);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 /* BUTTON */
@@ -139,20 +146,19 @@ button {
     font-size: 1.2em;
     font-weight: 700;
     color: #fff;
-    background: #ff3f7f;
+    background: linear-gradient(135deg, #00f260, #0575e6);
     border: none;
     border-radius: 25px;
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-    transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
     position: relative;
     overflow: hidden;
 }
 
 button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-    background: #ff1c5f;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
 }
 
 /* RESULT BOX */
@@ -160,14 +166,14 @@ button:hover {
     margin-top: 25px;
     font-size: 1.6em;
     font-weight: 700;
-    color: #fff;
-    background: #1d4ed8; /* Blue glowing */
+    color: #00f260; /* Green glow */
+    background: rgba(0,0,0,0.3);
     padding: 18px 25px;
     border-radius: 20px;
     text-align: center;
     max-width: 400px;
     width: 100%;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     animation: fadeInUp 1s forwards;
 }
 
