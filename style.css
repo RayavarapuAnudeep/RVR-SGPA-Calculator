@@ -5,13 +5,23 @@
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
-    padding: 40px 20px;
+    padding: 50px 20px;
     min-height: 100vh;
-    background-color: #f0f4f8; /* Soft light background */
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4, #a18cd1, #fbc2eb);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #333; /* Default text */
+    color: #333;
+    overflow-x: hidden;
+}
+
+/* BACKGROUND ANIMATION */
+@keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
 }
 
 /* HEADINGS */
@@ -19,12 +29,13 @@ h1 {
     font-size: 2.8em;
     font-weight: 700;
     margin-bottom: 5px;
-    color: #1a73e8; /* Accent blue for title */
+    color: #fff;
+    text-shadow: 2px 2px 12px rgba(0,0,0,0.3);
 }
 
 p {
     font-size: 1.1em;
-    color: #555;
+    color: #f0f0f0;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -34,43 +45,54 @@ select#branch {
     padding: 12px 18px;
     margin: 10px 0 25px 0;
     border-radius: 12px;
-    border: 1px solid #ccc;
+    border: none;
     outline: none;
     font-size: 1em;
     background: #fff;
     color: #333;
-    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
 select#branch:hover, select#branch:focus {
-    border-color: #1a73e8;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
 }
 
 /* SUBJECT CARDS */
 .subject-row {
-    background: #ffffff; /* White card */
-    border-radius: 15px;
+    border-radius: 20px;
     padding: 20px 25px;
     margin: 15px 0;
     max-width: 480px;
     width: 100%;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #fff;
+    font-weight: 600;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    transform: translateY(50px);
+    opacity: 0;
+    animation: fadeInUp 0.6s forwards;
 }
 
+/* DIFFERENT PASTEL COLORS FOR CARDS */
+.subject-row:nth-child(1) { background-color: #ff6b6b; }
+.subject-row:nth-child(2) { background-color: #6bc1ff; }
+.subject-row:nth-child(3) { background-color: #6bff95; }
+.subject-row:nth-child(4) { background-color: #ffd86b; }
+.subject-row:nth-child(5) { background-color: #b36bff; }
+
+/* CARD HOVER */
 .subject-row:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 15px 50px rgba(0,0,0,0.25);
 }
 
 /* SUBJECT NAME */
 .subject-row p {
-    margin: 0 0 10px 0;
-    font-weight: 600;
-    color: #1f2937; /* Dark grey text */
+    margin: 0 0 12px 0;
+    font-size: 1.1em;
 }
 
 /* FLEX CONTAINER FOR CREDITS + GRADE */
@@ -83,73 +105,84 @@ select#branch:hover, select#branch:focus {
 
 /* CREDITS BOX */
 .credits-box {
-    background: #ffedd5; /* Soft orange */
+    background: rgba(255,255,255,0.3);
     padding: 8px 16px;
-    border-radius: 10px;
-    font-weight: 600;
-    color: #b45309; /* Dark orange text */
+    border-radius: 12px;
+    color: #000;
     min-width: 80px;
     text-align: center;
+    font-weight: 600;
 }
 
 /* GRADE SELECT */
 .grade-select {
     padding: 8px 14px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
+    border-radius: 12px;
+    border: none;
     outline: none;
-    background: #dbeafe; /* Light blue */
-    color: #1e40af; /* Dark blue text */
+    background: rgba(255,255,255,0.3);
+    color: #000;
     font-weight: 600;
-    font-size: 1em;
-    transition: all 0.3s ease;
+    transition: all 0.3s;
 }
 
 .grade-select:hover, .grade-select:focus {
-    border-color: #1e3a8a;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* BUTTON STYLING */
+/* BUTTON */
 button {
-    padding: 14px 35px;
+    padding: 16px 40px;
     margin-top: 20px;
     font-size: 1.2em;
-    font-weight: 600;
+    font-weight: 700;
     color: #fff;
-    background-color: #f97316; /* Bright orange */
+    background: #ff3f7f;
     border: none;
-    border-radius: 20px;
+    border-radius: 25px;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+    position: relative;
+    overflow: hidden;
 }
 
 button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    background-color: #ea580c; /* Darker orange on hover */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    background: #ff1c5f;
 }
 
 /* RESULT BOX */
 #result {
     margin-top: 25px;
-    font-size: 1.5em;
+    font-size: 1.6em;
     font-weight: 700;
-    color: #065f46; /* Green accent for success */
-    background: #d1fae5; /* Light green background */
-    padding: 15px 25px;
-    border-radius: 15px;
+    color: #fff;
+    background: #1d4ed8; /* Blue glowing */
+    padding: 18px 25px;
+    border-radius: 20px;
     text-align: center;
     max-width: 400px;
     width: 100%;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    animation: fadeInUp 1s forwards;
 }
 
-/* RESPONSIVE DESIGN */
+/* CARD ANIMATION */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* RESPONSIVE */
 @media (max-width: 480px) {
     body {
-        padding: 20px 15px;
+        padding: 25px 15px;
     }
     h1 {
         font-size: 2em;
@@ -166,6 +199,6 @@ button:hover {
         font-size: 1.1em;
     }
     #result {
-        font-size: 1.3em;
+        font-size: 1.4em;
     }
 }
