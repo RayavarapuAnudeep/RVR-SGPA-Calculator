@@ -7,11 +7,11 @@ body {
     margin: 0;
     padding: 40px 20px;
     min-height: 100vh;
-    background-color: #f0f2f5; /* Soft neutral background */
+    background-color: #f0f4f8; /* Soft light background */
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #333; /* Dark text for readability */
+    color: #333; /* Default text */
 }
 
 /* HEADINGS */
@@ -19,6 +19,7 @@ h1 {
     font-size: 2.8em;
     font-weight: 700;
     margin-bottom: 5px;
+    color: #1a73e8; /* Accent blue for title */
 }
 
 p {
@@ -42,13 +43,13 @@ select#branch {
 }
 
 select#branch:hover, select#branch:focus {
-    border-color: #007bff;
+    border-color: #1a73e8;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
 /* SUBJECT CARDS */
 .subject-row {
-    background: rgba(255, 255, 255, 0.95); /* Solid white with slight transparency */
+    background: #ffffff; /* White card */
     border-radius: 15px;
     padding: 20px 25px;
     margin: 15px 0;
@@ -69,7 +70,7 @@ select#branch:hover, select#branch:focus {
 .subject-row p {
     margin: 0 0 10px 0;
     font-weight: 600;
-    color: #333;
+    color: #1f2937; /* Dark grey text */
 }
 
 /* FLEX CONTAINER FOR CREDITS + GRADE */
@@ -82,11 +83,11 @@ select#branch:hover, select#branch:focus {
 
 /* CREDITS BOX */
 .credits-box {
-    background: #e0e0e0; /* light grey */
+    background: #ffedd5; /* Soft orange */
     padding: 8px 16px;
     border-radius: 10px;
     font-weight: 600;
-    color: #333;
+    color: #b45309; /* Dark orange text */
     min-width: 80px;
     text-align: center;
 }
@@ -97,15 +98,15 @@ select#branch:hover, select#branch:focus {
     border-radius: 10px;
     border: 1px solid #ccc;
     outline: none;
-    background: #fff;
-    color: #333;
+    background: #dbeafe; /* Light blue */
+    color: #1e40af; /* Dark blue text */
     font-weight: 600;
     font-size: 1em;
     transition: all 0.3s ease;
 }
 
 .grade-select:hover, .grade-select:focus {
-    border-color: #007bff;
+    border-color: #1e3a8a;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
@@ -116,7 +117,7 @@ button {
     font-size: 1.2em;
     font-weight: 600;
     color: #fff;
-    background-color: #007bff; /* Solid blue */
+    background-color: #f97316; /* Bright orange */
     border: none;
     border-radius: 20px;
     cursor: pointer;
@@ -127,7 +128,7 @@ button {
 button:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    background-color: #0056b3; /* darker blue on hover */
+    background-color: #ea580c; /* Darker orange on hover */
 }
 
 /* RESULT BOX */
@@ -135,8 +136,8 @@ button:hover {
     margin-top: 25px;
     font-size: 1.5em;
     font-weight: 700;
-    color: #007bff;
-    background: #e8f0fe;
+    color: #065f46; /* Green accent for success */
+    background: #d1fae5; /* Light green background */
     padding: 15px 25px;
     border-radius: 15px;
     text-align: center;
