@@ -1,7 +1,7 @@
 /* GOOGLE FONT IMPORT */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
-/* BODY */
+/* BODY AND SPACE BACKGROUND */
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
@@ -16,19 +16,26 @@ body {
     position: relative;
 }
 
-/* STARS BACKGROUND */
+/* STARRY BACKGROUND USING PURE CSS */
 body::before {
     content: '';
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: transparent url('https://i.ibb.co/0F7vXyY/stars.png') repeat;
+    background:
+        radial-gradient(2px 2px at 10% 20%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 40% 50%, #fff, transparent),
+        radial-gradient(1px 1px at 70% 80%, #fff, transparent),
+        radial-gradient(2px 2px at 90% 30%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 20% 70%, #fff, transparent),
+        radial-gradient(1px 1px at 50% 40%, #fff, transparent);
+    background-size: 2000px 2000px;
     z-index: -1;
     animation: moveStars 200s linear infinite;
 }
 
 @keyframes moveStars {
     0% { background-position: 0 0; }
-    100% { background-position: 10000px 10000px; }
+    100% { background-position: 2000px 2000px; }
 }
 
 /* HEADINGS */
@@ -36,7 +43,7 @@ h1 {
     font-size: 2.8em;
     font-weight: 700;
     margin-bottom: 5px;
-    color: #ffdd00;
+    color: #ffdd00; /* Bright gold */
     text-shadow: 2px 2px 12px rgba(0,0,0,0.7);
 }
 
@@ -55,7 +62,7 @@ select#branch {
     border: none;
     outline: none;
     font-size: 1em;
-    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    background: linear-gradient(135deg, #ff416c, #ff4b2b); /* vibrant gradient */
     color: #fff;
     font-weight: 600;
     box-shadow: 0 4px 10px rgba(0,0,0,0.5);
@@ -91,6 +98,7 @@ select#branch option {
 .subject-row:nth-child(4) { background-color: #ffd86b; }
 .subject-row:nth-child(5) { background-color: #b36bff; }
 
+/* CARD HOVER */
 .subject-row:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 50px rgba(0,0,0,0.35);
